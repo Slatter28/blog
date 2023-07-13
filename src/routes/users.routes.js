@@ -22,7 +22,7 @@ router.get("/users/signup", (req, res) => {
     res.render("./users/signup");
 });
 
-router.post("/users/signup", async(req, res) => {
+router.post("/users/signup", async (req, res) => {
     let errors = [];
     const { name, email, password, confirm_password } = req.body;
     if (password != confirm_password) {
@@ -57,9 +57,13 @@ router.post("/users/signup", async(req, res) => {
 });
 
 router.get("/users/logout", (req, res) => {
-    //req.logout();
-    req.flash("success_msg", "You are logged out now.");
-    res.redirect("/users/signin");
+    req.logout(function (err) {
+        if (err) throw err;
+        req.flash("success_msg", "You are logged out now.");
+        res.redirect("/users/signin");
+    });
+
+
 });
 
 module.exports = router;
